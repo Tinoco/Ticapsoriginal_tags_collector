@@ -17,4 +17,4 @@
 * Show Analisis - > Show google Trends tag analisis
 
  
-![](https://desembo.la/assets/tagscollector.png)
+![](https://desembo.la/assets/tagscollectorflow.png)
