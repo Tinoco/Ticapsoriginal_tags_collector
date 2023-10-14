@@ -42,6 +42,7 @@ for item in (list(itertools.chain(*(sorted(ys) for k, ys in itertools.groupby(
              both_most_common, key=lambda t: t[1]))))):
     if item[1] > 10 and (item[0] not in notags and len(item[0]) > 2):
         taglist += item
+        print(item)
 pytrends = TrendReq(hl='en-US', tz=360)
 
 multiply_args_list = [(taglist[2]), (taglist[4]), (taglist[6])]
