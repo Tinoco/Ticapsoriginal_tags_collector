@@ -6,6 +6,9 @@ from bs4 import BeautifulSoup
 import requests
 from tqdm import tqdm
 import advertools as adv
+from pytrends.request import TrendReq
+import plotly.express as px
+import time
 
 sitemap = adv.sitemap_to_df("https://ticapsoriginal.com/static/sitemap.xml")
 urls = sitemap["loc"].to_list()
@@ -38,4 +41,19 @@ both_most_common = both.most_common()
 for item in (list(itertools.chain(*(sorted(ys) for k, ys in itertools.groupby(
              both_most_common, key=lambda t: t[1]))))):
     if item[1] > 10 and (item[0] not in notags and len(item[0]) > 2):
-        print(item)
+        taglist += item
+pytrends = TrendReq(hl='en-US', tz=360)
+
+multiply_args_list = [(taglist[2]), (taglist[4]), (taglist[6])]
+pytrends.build_payload(multiply_args_list, cat=0, timeframe='today 12-m')
+for item in tqdm(multiply_args_list):
+    data = pytrends.interest_over_time()
+    data = data.reset_index()
+    fig = px.line(
+                  data,
+                  x="date",
+                  y=multiply_args_list,
+                  title='Ticapsoriginal Tag Trends'
+                  )
+    time.sleep(30)
+fig.show()
